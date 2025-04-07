@@ -1,0 +1,64 @@
+/* Стилі для MovieDetailsPage */
+.movieDetails {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.movieTitle {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+}
+
+.movieOverview {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.castList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.castItem {
+  text-align: center;
+}
+
+.castImage {
+  width: 150px;
+  height: 225px;
+  border-radius: 5px;
+  object-fit: cover;
+}
+
+.castName {
+  margin-top: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.reviewsList {
+  margin-top: 30px;
+}
+
+.reviewItem {
+  margin-bottom: 20px;
+}
+
+.reviewAuthor {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+.reviewContent {
+  font-size: 14px;
+  color: #555;
+  margin-top: 10px;
+}
