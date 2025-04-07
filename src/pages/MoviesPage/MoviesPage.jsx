@@ -8,6 +8,7 @@ const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isSearched, setIsSearched] = useState(false); // Додаємо стан для перевірки пошуку
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -19,13 +20,20 @@ const MoviesPage = () => {
 
     setIsLoading(true);
     setError("");
+    setIsSearched(true); // Встановлюємо, що пошук виконано
 
     const apiKey = "3e69c55c42c8091004bf2a91be7b915b";
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US`;
 
     try {
       const response = await axios.get(url);
-      setMovies(response.data.results);
+      const results = response.data.results;
+
+      if (results.length === 0) {
+        setError("No movies found.");
+      }
+
+      setMovies(results);
     } catch (err) {
       console.error("Error fetching searched movies:", err);
       setError("Could not fetch movies. Please try again.");
@@ -49,6 +57,9 @@ const MoviesPage = () => {
         </button>
       </form>
       {error && <p className={css.error}>{error}</p>}
+      {isSearched && !isLoading && movies.length === 0 && !error && (
+        <p className={css.error}>No movies found.</p>
+      )}
       <MovieList movies={movies} isLoading={isLoading} />
     </div>
   );

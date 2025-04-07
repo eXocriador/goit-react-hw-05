@@ -8,10 +8,6 @@ const MovieList = ({ movies, isLoading }) => {
     return <p className={css.loading}>Loading...</p>;
   }
 
-  if (!movies || movies.length === 0) {
-    return <p className={css.noResults}>No movies found.</p>;
-  }
-
   return (
     <ul className={css.list}>
       {movies.map((movie) => (

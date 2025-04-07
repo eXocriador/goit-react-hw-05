@@ -1,0 +1,24 @@
+.link {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.link:hover {
+  background-color: #0056b3;
+}
+
+.link.active {
+  background-color: #0056b3;
+  font-weight: bold;
+}
+
+.nav {
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+}

@@ -41,13 +41,41 @@ const MovieDetailsPage = () => {
     setReviews(data.results);
   };
 
-  if (!movie) return <div>Loading...</div>;
+  const handleGoBack = () => {
+    window.history.back();
+  };
+
+  if (!movie) return <div className={css.loading}>Loading...</div>;
 
   return (
     <div className={css.movieDetails}>
-      <h1 className={css.movieTitle}>{movie.title}</h1>
-      <p className={css.movieOverview}>{movie.overview}</p>
+      <button className={css.goBackButton} onClick={handleGoBack}>
+        Go back
+      </button>
+      <div className={css.movieInfo}>
+        <img
+          className={css.moviePoster}
+          src={
+            movie.poster_path
+              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+              : "https://via.placeholder.com/300x450?text=No+Image"
+          }
+          alt={movie.title}
+        />
+        <div className={css.movieText}>
+          <h1 className={css.movieTitle}>{movie.title}</h1>
+          <p className={css.movieOverview}>{movie.overview}</p>
+          <p className={css.movieDetailsText}>
+            <strong>Release Date:</strong> {movie.release_date}
+          </p>
+          <p className={css.movieDetailsText}>
+            <strong>Rating:</strong> {movie.vote_average} / 10
+          </p>
+        </div>
+      </div>
+      <h2 className={css.sectionTitle}>Cast</h2>
       <MovieCast cast={cast} />
+      <h2 className={css.sectionTitle}>Reviews</h2>
       <MovieReviews reviews={reviews} />
     </div>
   );

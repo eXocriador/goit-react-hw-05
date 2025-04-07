@@ -1,64 +1,70 @@
-/* Стилі для MovieDetailsPage */
 .movieDetails {
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: "Arial", sans-serif;
   padding: 20px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.goBackButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.goBackButton:hover {
+  background-color: #0056b3;
+}
+
+.movieInfo {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.moviePoster {
+  width: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.movieText {
+  flex: 1;
 }
 
 .movieTitle {
-  font-size: 2rem;
-  color: #2c3e50;
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
   margin-bottom: 10px;
 }
 
 .movieOverview {
-  font-size: 1.2rem;
-  color: #555;
+  font-size: 18px;
   line-height: 1.6;
-}
-
-.castList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
-  margin-top: 30px;
-}
-
-.castItem {
-  text-align: center;
-}
-
-.castImage {
-  width: 150px;
-  height: 225px;
-  border-radius: 5px;
-  object-fit: cover;
-}
-
-.castName {
-  margin-top: 5px;
-  font-size: 16px;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-.reviewsList {
-  margin-top: 30px;
-}
-
-.reviewItem {
+  color: #555;
   margin-bottom: 20px;
 }
 
-.reviewAuthor {
-  font-size: 18px;
-  font-weight: bold;
-  color: #2c3e50;
+.movieDetailsText {
+  font-size: 16px;
+  color: #444;
+  margin-bottom: 10px;
 }
 
-.reviewContent {
-  font-size: 14px;
-  color: #555;
-  margin-top: 10px;
+.sectionTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #2c3e50;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #007bff;
 }

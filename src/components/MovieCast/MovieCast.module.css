@@ -1,0 +1,30 @@
+.castList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.actorCard {
+  width: 150px;
+  text-align: center;
+}
+
+.actorImage {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.actorName {
+  margin-top: 10px;
+  font-weight: bold;
+  color: #333;
+}
+
+.characterName {
+  font-size: 14px;
+  color: #555;
+}

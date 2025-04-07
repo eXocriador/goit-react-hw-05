@@ -1,0 +1,30 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.App {
+  font-family: "Arial", sans-serif;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.navigation {
+  background-color: #007bff;
+  padding: 20px;
+  color: white;
+  text-align: center;
+}
+
+.navigation a {
+  color: white;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.navigation a:hover {
+  text-decoration: underline;
+}
