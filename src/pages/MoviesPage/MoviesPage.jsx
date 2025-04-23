@@ -8,8 +8,7 @@ const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [isSearched, setIsSearched] = useState(false); // Додаємо стан для перевірки пошуку
-
+  const [isSearched, setIsSearched] = useState(false);
   const handleSearch = async (event) => {
     event.preventDefault();
 
@@ -20,7 +19,7 @@ const MoviesPage = () => {
 
     setIsLoading(true);
     setError("");
-    setIsSearched(true); // Встановлюємо, що пошук виконано
+    setIsSearched(true);
 
     const apiKey = "3e69c55c42c8091004bf2a91be7b915b";
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US`;
