@@ -21,7 +21,7 @@ const MovieList = ({ movies, isLoading }) => {
               src={
                 movie.poster_path
                   ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
-                  : "https://via.placeholder.com/300x450?text=No+Image"
+                  : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
               }
               alt={movie.title}
               className={css.poster}

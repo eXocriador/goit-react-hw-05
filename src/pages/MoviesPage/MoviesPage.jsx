@@ -1,65 +1,58 @@
-import React, { useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import MovieList from "../../components/MovieList/MovieList";
 import css from "./MoviesPage.module.css";
 
 const MoviesPage = () => {
-  const [query, setQuery] = useState("");
   const [movies, setMovies] = useState([]);
-  const [error, setError] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSearched, setIsSearched] = useState(false);
-  const handleSearch = async (event) => {
-    event.preventDefault();
+  const [error, setError] = useState(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
 
-    if (query.trim() === "") {
-      setError("Please enter a search term.");
-      return;
-    }
+  useEffect(() => {
+    if (!query) return;
 
-    setIsLoading(true);
-    setError("");
-    setIsSearched(true);
-
-    const apiKey = "3e69c55c42c8091004bf2a91be7b915b";
-    const url = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${query}&language=en-US`;
-
-    try {
-      const response = await axios.get(url);
-      const results = response.data.results;
-
-      if (results.length === 0) {
-        setError("No movies found.");
+    const fetchMovies = async () => {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+            query
+          )}&include_adult=false&language=en-US&page=1&api_key=3e69c55c42c8091004bf2a91be7b915b`
+        );
+        if (!res.ok) throw new Error("Failed to fetch movies");
+        const data = await res.json();
+        setMovies(data.results);
+      } catch (err) {
+        setError(err.message);
       }
+    };
 
-      setMovies(results);
-    } catch (err) {
-      console.error("Error fetching searched movies:", err);
-      setError("Could not fetch movies. Please try again.");
-    } finally {
-      setIsLoading(false);
-    }
+    fetchMovies();
+  }, [query]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const value = e.target.elements.search.value.trim();
+    if (value) setSearchParams({ query: value });
   };
 
   return (
     <div className={css.moviesPage}>
-      <form className={css.searchForm} onSubmit={handleSearch}>
+      <form onSubmit={handleSubmit} className={css.searchForm}>
         <input
           type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search for a movie..."
+          name="search"
+          placeholder="Search movies..."
+          defaultValue={query}
           className={css.searchInput}
         />
         <button type="submit" className={css.searchButton}>
           Search
         </button>
       </form>
-      {error && <p className={css.error}>{error}</p>}
-      {isSearched && !isLoading && movies.length === 0 && !error && (
-        <p className={css.error}>No movies found.</p>
-      )}
-      <MovieList movies={movies} isLoading={isLoading} />
+
+      {error && <p className={css.error}>Error: {error}</p>}
+      <MovieList movies={movies} />
     </div>
   );
 };

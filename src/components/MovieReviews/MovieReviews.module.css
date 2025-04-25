@@ -1,26 +1,26 @@
-.notFoundPage {
+.reviewList {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  text-align: center;
-  background-color: #f8f9fa;
-  color: #343a40;
+  gap: 20px;
 }
 
-.notFoundPage h1 {
-  font-size: 3rem;
-  margin-bottom: 1rem;
+.reviewItem {
+  background-color: #ffffff;
+  border-left: 5px solid #007bff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.link {
-  font-size: 1.2rem;
-  color: #007bff;
-  text-decoration: none;
-  transition: color 0.3s ease;
+.reviewItem h4 {
+  margin-bottom: 10px;
+  color: #333;
 }
 
-.link:hover {
-  color: #0056b3;
+.reviewItem p {
+  color: #444;
+  line-height: 1.6;
 }

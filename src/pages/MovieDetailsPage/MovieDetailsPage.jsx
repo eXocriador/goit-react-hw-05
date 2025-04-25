@@ -1,82 +1,83 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import MovieCast from "../../components/MovieCast/MovieCast";
-import MovieReviews from "../../components/MovieReviews/MovieReviews";
+import { useEffect, useRef, useState, Suspense } from "react";
+import { useParams, useLocation, NavLink, Outlet } from "react-router-dom";
 import css from "./MovieDetailsPage.module.css";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
+  const location = useLocation();
+  const backLinkRef = useRef(location.state?.from || "/movies");
+
   const [movie, setMovie] = useState(null);
-  const [cast, setCast] = useState([]);
-  const [reviews, setReviews] = useState([]);
-  const apiKey = "3e69c55c42c8091004bf2a91be7b915b";
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/${movieId}?api_key=3e69c55c42c8091004bf2a91be7b915b&language=en-US`
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch movie details");
+        const data = await res.json();
+        setMovie(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
     fetchMovieDetails();
-    fetchMovieCast();
-    fetchMovieReviews();
   }, [movieId]);
 
-  const fetchMovieDetails = async () => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=en-US`
-    );
-    const data = await response.json();
-    setMovie(data);
-  };
+  if (error) return <p>Error: {error}</p>;
+  if (!movie) return <p>Loading...</p>;
 
-  const fetchMovieCast = async () => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}&language=en-US`
-    );
-    const data = await response.json();
-    setCast(data.cast);
-  };
-
-  const fetchMovieReviews = async () => {
-    const response = await fetch(
-      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}&language=en-US`
-    );
-    const data = await response.json();
-    setReviews(data.results);
-  };
-
-  const handleGoBack = () => {
-    window.history.back();
-  };
-
-  if (!movie) return <div className={css.loading}>Loading...</div>;
+  const { title, overview, poster_path, genres, vote_average } = movie;
 
   return (
-    <div className={css.movieDetails}>
-      <button className={css.goBackButton} onClick={handleGoBack}>
-        Go back
-      </button>
-      <div className={css.movieInfo}>
+    <div className={css.wrapper}>
+      <NavLink to={backLinkRef.current} className={css.backBtn}>
+        ⬅ Go back
+      </NavLink>
+
+      <div className={css.detailsContainer}>
         <img
-          className={css.moviePoster}
           src={
-            movie.poster_path
-              ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
-              : "https://via.placeholder.com/300x450?text=No+Image"
+            poster_path
+              ? `https://image.tmdb.org/t/p/w500${poster_path}`
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/300px-No_image_available.svg.png"
           }
-          alt={movie.title}
+          alt={title}
+          className={css.poster}
         />
-        <div className={css.movieText}>
-          <h1 className={css.movieTitle}>{movie.title}</h1>
-          <p className={css.movieOverview}>{movie.overview}</p>
-          <p className={css.movieDetailsText}>
-            <strong>Release Date:</strong> {movie.release_date}
-          </p>
-          <p className={css.movieDetailsText}>
-            <strong>Rating:</strong> {movie.vote_average} / 10
-          </p>
+        <div className={css.info}>
+          <h2>{title}</h2>
+          <p>User score: {vote_average}</p>
+          <h3>Overview</h3>
+          <p>{overview}</p>
+          <h3>Genres</h3>
+          <p>{genres.map((g) => g.name).join(", ")}</p>
         </div>
       </div>
-      <h2 className={css.sectionTitle}>Cast</h2>
-      <MovieCast cast={cast} />
-      <h2 className={css.sectionTitle}>Reviews</h2>
-      <MovieReviews reviews={reviews} />
+
+      <div className={css.links}>
+        <h3>Additional information</h3>
+        <ul>
+          <li>
+            <NavLink to="cast" state={{ from: backLinkRef.current }}>
+              Cast
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="reviews" state={{ from: backLinkRef.current }}>
+              Reviews
+            </NavLink>
+          </li>
+        </ul>
+      </div>
+
+      <Suspense fallback={<p>Loading subpage...</p>}>
+        <Outlet />
+      </Suspense>
     </div>
   );
 };
